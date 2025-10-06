@@ -9,12 +9,10 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Cargar tareas al montar el componente
   useEffect(() => {
     loadTasks();
   }, []);
 
-  // Función para cargar tareas desde la API
   const loadTasks = async () => {
     setLoading(true);
     setError(null);
@@ -33,11 +31,9 @@ function App() {
     }
   };
 
-  // Función para agregar nueva tarea
   const addTask = async (e) => {
     e.preventDefault();
     
-    // Validación: no permitir tareas vacías
     if (!newTaskTitle.trim()) {
       setError('El título de la tarea no puede estar vacío');
       return;
@@ -69,7 +65,6 @@ function App() {
     }
   };
 
-  // Función para alternar estado de completado
   const toggleTask = async (id) => {
     const task = tasks.find(t => t.id === id);
     if (!task) return;
@@ -99,7 +94,6 @@ function App() {
     }
   };
 
-  // Función para eliminar tarea
   const deleteTask = async (id) => {
     setLoading(true);
     setError(null);
@@ -126,7 +120,6 @@ function App() {
       <div className="container">
         <h1>📝 Lista de Tareas</h1>
 
-        {/* Formulario para agregar nueva tarea */}
         <form onSubmit={addTask} className="add-task-form">
           <input
             type="text"
@@ -141,21 +134,18 @@ function App() {
           </button>
         </form>
 
-        {/* Mensaje de error */}
         {error && (
           <div className="error-message">
             ⚠️ {error}
           </div>
         )}
 
-        {/* Indicador de carga */}
         {loading && (
           <div className="loading">
             ⏳ Cargando...
           </div>
         )}
 
-        {/* Lista de tareas */}
         <div className="tasks-list">
           {tasks.length === 0 ? (
             <p className="no-tasks">No hay tareas. ¡Agrega una nueva!</p>
@@ -184,7 +174,6 @@ function App() {
           )}
         </div>
 
-        {/* Contador de tareas */}
         <div className="task-counter">
           <span>Total: {tasks.length}</span>
           <span>Completadas: {tasks.filter(t => t.completed).length}</span>

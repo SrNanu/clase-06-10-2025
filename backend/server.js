@@ -8,24 +8,19 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 
-// Almacenamiento en memoria de las tareas
 let tasks = [
   { id: 1, title: 'Tarea de ejemplo', completed: false }
 ];
 
-// Contador para generar IDs únicos
 let nextId = 2;
 
-// GET /api/tasks - Obtener todas las tareas
 app.get('/api/tasks', (req, res) => {
   res.json(tasks);
 });
 
-// POST /api/tasks - Crear nueva tarea
 app.post('/api/tasks', (req, res) => {
   const { title } = req.body;
 
-  // Validación
   if (!title || title.trim() === '') {
     return res.status(400).json({ error: 'El título de la tarea es requerido' });
   }
@@ -40,7 +35,6 @@ app.post('/api/tasks', (req, res) => {
   res.status(201).json(newTask);
 });
 
-// PUT /api/tasks/:id - Actualizar tarea existente
 app.put('/api/tasks/:id', (req, res) => {
   const id = parseInt(req.params.id);
   const { title, completed } = req.body;
@@ -51,7 +45,6 @@ app.put('/api/tasks/:id', (req, res) => {
     return res.status(404).json({ error: 'Tarea no encontrada' });
   }
 
-  // Actualizar solo los campos proporcionados
   if (title !== undefined) {
     if (title.trim() === '') {
       return res.status(400).json({ error: 'El título de la tarea no puede estar vacío' });
@@ -66,7 +59,6 @@ app.put('/api/tasks/:id', (req, res) => {
   res.json(tasks[taskIndex]);
 });
 
-// DELETE /api/tasks/:id - Eliminar tarea
 app.delete('/api/tasks/:id', (req, res) => {
   const id = parseInt(req.params.id);
   const taskIndex = tasks.findIndex(task => task.id === id);
@@ -79,12 +71,10 @@ app.delete('/api/tasks/:id', (req, res) => {
   res.json(deletedTask);
 });
 
-// Manejo de rutas no encontradas
 app.use((req, res) => {
   res.status(404).json({ error: 'Ruta no encontrada' });
 });
 
-// Manejo de errores
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: 'Error interno del servidor' });
